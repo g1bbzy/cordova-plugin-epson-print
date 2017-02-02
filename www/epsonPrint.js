@@ -2,6 +2,6 @@
 
 module.exports = {
     ShowAlert: function (name, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, "EpsonPrint", "ShowAlert");
+        cordova.exec(successCallback, errorCallback, "EpsonPrint", "ShowAlert", []);
     }
 };
