@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-epson-print" version="1.0.0">
+    <name>Epson Print</name>
+    <description>Cordova Plugin for printing on epson pos printers</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,epson,print</keywords>
+
+    <js-module src="www/epsonPrint.js" name="EpsonPrint">
+        <clobbers target="EpsonPrint" />
+    </js-module>
+     <!-- cordova -->
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <platform name="android">
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="EpsonPrint">
+                <param name="android-package" value="com.epson.epos2_printer.EpsonPrint"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/EpsonPrint.java" target-dir="src/org/apache/cordova/plugin" />
+        <source-file src="src/android/ePOS2.jar" target-dir="libs" />
+        <source-file src="src/android/ePOSEasySelect.jar" target-dir="libs" />
+    </platform>
+</plugin>
