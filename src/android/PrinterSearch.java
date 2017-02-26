@@ -39,11 +39,11 @@ public class PrinterSearch extends Activity {
         mFilterOption = new FilterOption();
         mFilterOption.setDeviceType(Discovery.TYPE_PRINTER);
         mFilterOption.setEpsonFilter(Discovery.FILTER_NAME);
-//        try {
-//            Discovery.stop();
-//        }
-//        catch (Exception e) {
-//        }
+        try {
+            Discovery.stop();
+        }
+        catch (Exception e) {
+        }
 
         try {
             Discovery.start(mContext, mFilterOption, mDiscoveryListener);
