@@ -69,7 +69,7 @@ public class PrinterSearch extends Activity {
         try {
             Discovery.stop();
         }
-        catch (Epos2Exception e) {
+        catch (Exception e) {
         }
     }
 
@@ -77,7 +77,7 @@ public class PrinterSearch extends Activity {
         try {
             Discovery.stop();
         }
-        catch (Epos2Exception e) {
+        catch (Exception e) {
         }
         mCallbackContext.success("");
     }
@@ -85,48 +85,43 @@ public class PrinterSearch extends Activity {
     private DiscoveryListener mDiscoveryListener = new DiscoveryListener() {
         @Override
         public void onDiscovery(final DeviceInfo deviceInfo) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public synchronized void run() {
 
-                    boolean lcNewPrinter = true;
+            boolean lcNewPrinter = true;
 
-                    for (int i = 0; i < mfoundPrinters.length(); i++) {
-                        try{
-                        JSONObject lcPrinter = mfoundPrinters.getJSONObject(i);
-                        if(lcPrinter.getString("target").equals(deviceInfo.getTarget())) {
-                            lcNewPrinter = false;
-                            break;
-                        }
-                        } catch (JSONException e) {
-                            ShowAlert("json","");
-                        }
-                    }
-
-                    if(lcNewPrinter == true) {
-                        try{
-                            JSONObject obj = new JSONObject();
-                            obj.put("printer_name", deviceInfo.getDeviceName());
-                            obj.put("target", deviceInfo.getTarget());
-                            obj.put("mac", deviceInfo.getMacAddress());
-                            obj.put("brand", "Epson");
-                            mCallbackContext.success(obj);
-                        } catch (JSONException e) {
-                            ShowAlert("json","");
-                        }
-                        try {
-                            Discovery.stop();
-                        }
-                        catch (Epos2Exception e) {
-                            ShowAlert("stopping discovery", "");
-                        }
-                    }
-                    else {
-
-                    }
-
+            for (int i = 0; i < mfoundPrinters.length(); i++) {
+                try{
+                JSONObject lcPrinter = mfoundPrinters.getJSONObject(i);
+                if(lcPrinter.getString("target").equals(deviceInfo.getTarget())) {
+                    lcNewPrinter = false;
+                    break;
                 }
-            });
+                } catch (JSONException e) {
+                    ShowAlert("json","");
+                }
+            }
+
+            if(lcNewPrinter == true) {
+                try{
+                    JSONObject obj = new JSONObject();
+                    obj.put("printer_name", deviceInfo.getDeviceName());
+                    obj.put("target", deviceInfo.getTarget());
+                    obj.put("mac", deviceInfo.getMacAddress());
+                    obj.put("brand", "Epson");
+                    mCallbackContext.success(obj);
+                } catch (JSONException e) {
+                    ShowAlert("json","");
+                }
+                try {
+                    Discovery.stop();
+                }
+                catch (Epos2Exception e) {
+                    ShowAlert("stopping discovery", "");
+                }
+            }
+            else {
+
+            }
+
         }
     };
 }
