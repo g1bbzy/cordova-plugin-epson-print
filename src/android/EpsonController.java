@@ -44,7 +44,7 @@ public class EpsonController extends CordovaPlugin  {
                 try {
                     String ip_address = (arguments.get(0).toString());
                     String base64_image_str = (arguments.get(1).toString());
-
+                    mPrinter = null;
                     mPrinter = new EpsonPrinter(mContext);
                     if (mPrinter.runPrintReceiptSequence(ip_address, base64_image_str)) {
                         callbackContext.success("Print success");
