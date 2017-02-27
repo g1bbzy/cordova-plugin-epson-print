@@ -93,7 +93,7 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
             mPrinter.connect(printer_ip_address, Printer.PARAM_DEFAULT);
 
         }
-        catch (Exception e) {
+        catch (Epos2Exception e) {
             ShowAlert("connect", e.getMessage());
             return false;
         }
