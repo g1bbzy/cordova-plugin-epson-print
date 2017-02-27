@@ -32,10 +32,11 @@ public class EpsonController extends CordovaPlugin  {
 		super.initialize(cordova, webView);
 	}
 
-	public boolean execute(String action, final JSONArray arguments,
-		final CallbackContext callbackContext) throws JSONException {
+	public boolean execute(String action, final JSONArray args,
+		final CallbackContext currentCallbackContext) throws JSONException {
 		mContext = this.cordova.getActivity();
-
+        final JSONArray arguments = args;
+        final CallbackContext callbackContext = currentCallbackContext;
 		try {
 			if (PRINTRECEIPT.equals(action)) {
 				cordova.getThreadPool().execute(new Runnable() {
