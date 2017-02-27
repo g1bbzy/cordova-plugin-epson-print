@@ -32,39 +32,60 @@ public class EpsonController extends CordovaPlugin  {
 		super.initialize(cordova, webView);
 	}
 
-	public boolean execute(String action, JSONArray arguments,
-		CallbackContext callbackContext) throws JSONException {
+	public boolean execute(String action, final JSONArray arguments,
+		final CallbackContext callbackContext) throws JSONException {
 		mContext = this.cordova.getActivity();
 
 		try {
 			if (PRINTRECEIPT.equals(action)) {
+				cordova.getThreadPool().execute(new Runnable() {
+					public void run() {
+						try {
+							String ip_address = (arguments.get(0).toString());
+							String base64_image_str = (arguments.get(1).toString());
 
-				String ip_address = (arguments.get(0).toString());
-				String base64_image_str = (arguments.get(1).toString());
-
-				mPrinter = new EpsonPrinter(mContext);
-				if (mPrinter.runPrintReceiptSequence(ip_address , base64_image_str )) {
-					callbackContext.success("Print success");
-					return true;
-				}
-				else{
-					callbackContext.error("error");
-					return false;
-				}
+							mPrinter = new EpsonPrinter(mContext);
+							if (mPrinter.runPrintReceiptSequence(ip_address , base64_image_str )) {
+								callbackContext.success("Print success");
+							}
+							else{
+								callbackContext.error("error");
+							}
+						} catch (Exception e) {
+							callbackContext.error(e.getMessage());
+						}
+					}
+				});
+				return true;
 			}
 			else if(FINDPRINTERS.equals(action)) {
-				JSONArray found_printers = new JSONArray(arguments.get(0).toString());
-				mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
-				mPrinterSearch.search();
+				cordova.getThreadPool().execute(new Runnable() {
+					public void run() {
+						try {
+							JSONArray found_printers = new JSONArray(arguments.get(0).toString());
+							mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
+							mPrinterSearch.search();
+						} catch (Exception e) {
+							callbackContext.error(e.getMessage());
+						}
+					}
+				});
 				return true;
 			}
 			else if(STOPSEARCH.equals(action)) {
-				JSONArray found_printers = new JSONArray();
-				mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
-				mPrinterSearch.stop();
+				cordova.getThreadPool().execute(new Runnable() {
+					public void run() {
+						try {
+							JSONArray found_printers = new JSONArray();
+							mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
+							mPrinterSearch.stop();
+						} catch (Exception e) {
+							callbackContext.error(e.getMessage());
+						}
+					}
+				});
 				return true;
 			}
-
 			callbackContext.error("Invalid action: " + action);
 			return false;
 		} catch (Exception e) {
