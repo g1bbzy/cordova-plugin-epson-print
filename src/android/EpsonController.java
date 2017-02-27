@@ -61,9 +61,13 @@ public class EpsonController extends CordovaPlugin  {
 			else if(FINDPRINTERS.equals(action)) {
 				cordova.getThreadPool().execute(new Runnable() {
 					public void run() {
-                        JSONArray found_printers = new JSONArray(arguments.get(0).toString());
-                        mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
-                        mPrinterSearch.search();
+						try {
+							JSONArray found_printers = new JSONArray(arguments.get(0).toString());
+							mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
+							mPrinterSearch.search();
+						} catch (Exception e) {
+							callbackContext.error(e.getMessage());
+						}
 					}
 				});
 				return true;
@@ -71,9 +75,13 @@ public class EpsonController extends CordovaPlugin  {
 			else if(STOPSEARCH.equals(action)) {
 				cordova.getThreadPool().execute(new Runnable() {
 					public void run() {
-                        JSONArray found_printers = new JSONArray();
-                        mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
-                        mPrinterSearch.stop();
+						try {
+							JSONArray found_printers = new JSONArray();
+							mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
+							mPrinterSearch.stop();
+						} catch (JSONException e) {
+							callbackContext.error(e.getMessage());
+						}
 					}
 				});
 				return true;
