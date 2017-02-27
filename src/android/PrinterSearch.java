@@ -108,6 +108,7 @@ public class PrinterSearch extends Activity {
                             JSONObject obj = new JSONObject();
                             obj.put("printer_name", deviceInfo.getDeviceName());
                             obj.put("target", deviceInfo.getTarget());
+                            obj.put("mac", deviceInfo.getMacAddress());
                             obj.put("brand", "Epson");
                             mCallbackContext.success(obj);
                         } catch (JSONException e) {
