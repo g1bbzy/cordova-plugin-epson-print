@@ -40,15 +40,18 @@ public class EpsonController extends CordovaPlugin  {
 			if (PRINTRECEIPT.equals(action)) {
 				cordova.getThreadPool().execute(new Runnable() {
 					public void run() {
-                        String ip_address = (arguments.get(0).toString());
-                        String base64_image_str = (arguments.get(1).toString());
+                        try {
+                            String ip_address = (arguments.get(0).toString());
+                            String base64_image_str = (arguments.get(1).toString());
 
-                        mPrinter = new EpsonPrinter(mContext);
-                        if (mPrinter.runPrintReceiptSequence(ip_address , base64_image_str )) {
-                            callbackContext.success("Print success");
+                            mPrinter = new EpsonPrinter(mContext);
+                            if (mPrinter.runPrintReceiptSequence(ip_address, base64_image_str)) {
+                                callbackContext.success("Print success");
+                            } else {
+                                callbackContext.error("error");
+                            }
                         }
-                        else{
-                            callbackContext.error("error");
+                        catch (JSONException e) {
                         }
 					}
 				});
