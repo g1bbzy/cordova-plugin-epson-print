@@ -75,13 +75,9 @@ public class EpsonController extends CordovaPlugin  {
 			else if(STOPSEARCH.equals(action)) {
 				cordova.getThreadPool().execute(new Runnable() {
 					public void run() {
-						try {
-							JSONArray found_printers = new JSONArray();
-							mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
-							mPrinterSearch.stop();
-						} catch (JSONException e) {
-							callbackContext.error(e.getMessage());
-						}
+                        JSONArray found_printers = new JSONArray();
+                        mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
+                        mPrinterSearch.stop();
 					}
 				});
 				return true;
