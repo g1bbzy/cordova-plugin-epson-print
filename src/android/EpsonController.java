@@ -32,30 +32,28 @@ public class EpsonController extends CordovaPlugin  {
 		super.initialize(cordova, webView);
 	}
 
-	public boolean execute(String action, final JSONArray args,
-		final CallbackContext currentCallbackContext) throws JSONException {
+	public boolean execute(String action, JSONArray args,
+		CallbackContext currentCallbackContext) throws JSONException {
 		mContext = this.cordova.getActivity();
         final JSONArray arguments = args;
         final CallbackContext callbackContext = currentCallbackContext;
+
 		try {
 			if (PRINTRECEIPT.equals(action)) {
-				cordova.getThreadPool().execute(new Runnable() {
-					public void run() {
-                        try {
-                            String ip_address = (arguments.get(0).toString());
-                            String base64_image_str = (arguments.get(1).toString());
+				
+                try {
+                    String ip_address = (arguments.get(0).toString());
+                    String base64_image_str = (arguments.get(1).toString());
 
-                            mPrinter = new EpsonPrinter(mContext);
-                            if (mPrinter.runPrintReceiptSequence(ip_address, base64_image_str)) {
-                                callbackContext.success("Print success");
-                            } else {
-                                callbackContext.error("error");
-                            }
-                        }
-                        catch (JSONException e) {
-                        }
-					}
-				});
+                    mPrinter = new EpsonPrinter(mContext);
+                    if (mPrinter.runPrintReceiptSequence(ip_address, base64_image_str)) {
+                        callbackContext.success("Print success");
+                    } else {
+                        callbackContext.error("error");
+                    }
+                }
+                catch (JSONException e) {
+                }
 				return true;
 			}
 			else if(FINDPRINTERS.equals(action)) {
@@ -82,9 +80,5 @@ public class EpsonController extends CordovaPlugin  {
 			return false;
 		}
 	}
-
-	// --------------------------------------------------------------------------
-	// LOCAL METHODS
-	// --------------------------------------------------------------------------
 
 }
