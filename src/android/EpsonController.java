@@ -40,20 +40,16 @@ public class EpsonController extends CordovaPlugin  {
 			if (PRINTRECEIPT.equals(action)) {
 				cordova.getThreadPool().execute(new Runnable() {
 					public void run() {
-						try {
-							String ip_address = (arguments.get(0).toString());
-							String base64_image_str = (arguments.get(1).toString());
+                        String ip_address = (arguments.get(0).toString());
+                        String base64_image_str = (arguments.get(1).toString());
 
-							mPrinter = new EpsonPrinter(mContext);
-							if (mPrinter.runPrintReceiptSequence(ip_address , base64_image_str )) {
-								callbackContext.success("Print success");
-							}
-							else{
-								callbackContext.error("error");
-							}
-						} catch (Exception e) {
-							callbackContext.error(e.getMessage());
-						}
+                        mPrinter = new EpsonPrinter(mContext);
+                        if (mPrinter.runPrintReceiptSequence(ip_address , base64_image_str )) {
+                            callbackContext.success("Print success");
+                        }
+                        else{
+                            callbackContext.error("error");
+                        }
 					}
 				});
 				return true;
@@ -63,11 +59,11 @@ public class EpsonController extends CordovaPlugin  {
 					public void run() {
 						try {
 							JSONArray found_printers = new JSONArray(arguments.get(0).toString());
-							mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
-							mPrinterSearch.search();
-						} catch (JSONException e) {
-							callbackContext.error(e.getMessage());
-						}
+                        } catch (JSONException e) {
+                            callbackContext.error(e.getMessage());
+                        }
+                        mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
+                        mPrinterSearch.search();
 					}
 				});
 				return true;
