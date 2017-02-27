@@ -65,7 +65,7 @@ public class EpsonController extends CordovaPlugin  {
 							JSONArray found_printers = new JSONArray(arguments.get(0).toString());
 							mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
 							mPrinterSearch.search();
-						} catch (Exception e) {
+						} catch (JSONException e) {
 							callbackContext.error(e.getMessage());
 						}
 					}
