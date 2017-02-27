@@ -59,7 +59,7 @@ public class EpsonController extends CordovaPlugin  {
 					public void run() {
                         JSONArray found_printers;
 						try {
-							JSONArray found_printers = new JSONArray(arguments.get(0).toString());
+							found_printers = new JSONArray(arguments.get(0).toString());
                         } catch (JSONException e) {
                             callbackContext.error(e.getMessage());
                         }
