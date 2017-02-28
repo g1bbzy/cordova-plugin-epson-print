@@ -231,11 +231,18 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
     }
     @Override
     public void onPtrReceive(final Printer printerObj, final int code, final PrinterStatusInfo status, final String printJobId) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        new Thread(new Runnable() { 
+            @Override 
+            public synchronized void run() { 
+            //Abort process 
                 disconnectPrinter();
-            }
+            } 
         }).start();
+        // new Thread(new Runnable() {
+        //     @Override
+        //     public void run() {
+                
+        //     }
+        // }).start();
     }
 }
