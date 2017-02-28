@@ -41,12 +41,12 @@ public class EpsonController extends CordovaPlugin  {
 		try {
 			if (PRINTRECEIPT.equals(action)) {
 				
-            	Runnable r = new Runnable()
-				{
-				    @Override
-				    public void run()
-				    {
-				    	try {
+                try {
+                	Runnable r = new Runnable()
+					{
+					    @Override
+					    public void run()
+					    {
 					        String ip_address = (arguments.get(0).toString());
 		                    String base64_image_str = (arguments.get(1).toString());
 		                    mPrinter = null;
@@ -56,16 +56,15 @@ public class EpsonController extends CordovaPlugin  {
 		                    } else {
 		                        callbackContext.error("error");
 		                    }
-		                }
-	                    catch (JSONException e) {
-            			}
-				    }
-				};
+					    }
+					};
 
-				Thread t = new Thread(r);
-				t.start();
-                
-                
+					Thread t = new Thread(r);
+					t.start();
+                    
+                }
+                catch (JSONException e) {
+                }
 				return true;
 			}
 			else if(FINDPRINTERS.equals(action)) {

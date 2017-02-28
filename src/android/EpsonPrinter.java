@@ -22,7 +22,7 @@ import com.epson.epos2.printer.ReceiveListener;
 import com.epson.epos2.Epos2CallbackCode;
 import com.epson.epos2.Log;
 
-public class EpsonPrinter extends Activity implements ReceiveListener {
+public class EpsonPrinter implements ReceiveListener {
 
     private Context mContext = null;
     private Printer  mPrinter = null;
@@ -231,18 +231,13 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
     }
     @Override
     public void onPtrReceive(final Printer printerObj, final int code, final PrinterStatusInfo status, final String printJobId) {
-        new Thread(new Runnable() { 
-            @Override 
-            public synchronized void run() { 
-            //Abort process 
+        
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
                 disconnectPrinter();
-            } 
+            }
         }).start();
-        // new Thread(new Runnable() {
-        //     @Override
-        //     public void run() {
-                
-        //     }
-        // }).start();
+            
     }
 }
