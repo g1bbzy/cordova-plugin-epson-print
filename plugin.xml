@@ -7,11 +7,11 @@
     <keywords>cordova,epson,print</keywords>
 
     <js-module src="www/epsonPrint.js" name="EpsonPrint">
-        <clobbers target="EpsonPrint" />
+        <clobbers target="cordova.plugins.EpsonPrint" />
     </js-module>
      <!-- cordova -->
     <engines>
-        <engine name="cordova-android" version=">=6.0.0" />
+        <engine name="cordova" version=">=3.0.0" />
     </engines>
 
     <platform name="android">
