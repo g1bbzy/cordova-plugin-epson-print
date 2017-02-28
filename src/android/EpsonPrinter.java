@@ -78,7 +78,6 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
 
         try {
             mPrinter.connect(printer_ip_address, Printer.PARAM_DEFAULT);
-
         }
         catch (Exception e) {
             return false;
@@ -232,17 +231,11 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
     }
     @Override
     public void onPtrReceive(final Printer printerObj, final int code, final PrinterStatusInfo status, final String printJobId) {
-        runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
-            public synchronized void run() {
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        disconnectPrinter();
-                    }
-                }).start();
+            public void run() {
+                disconnectPrinter();
             }
-        });
+        }).start();
     }
 }
