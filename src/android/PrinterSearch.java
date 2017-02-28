@@ -64,6 +64,11 @@ public class PrinterSearch {
     private DiscoveryListener mDiscoveryListener = new DiscoveryListener() {
         @Override
         public void onDiscovery(final DeviceInfo deviceInfo) {
+            
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
 
                     boolean lcNewPrinter = true;
 
@@ -100,7 +105,8 @@ public class PrinterSearch {
                     else {
 
                     }
-             
+                }
+            }).start();
         }
     };
 }
