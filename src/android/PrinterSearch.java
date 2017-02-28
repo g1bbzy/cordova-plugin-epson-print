@@ -52,16 +52,6 @@ public class PrinterSearch {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        try {
-            Discovery.stop();
-        }
-        catch (Exception e) {
-        }
-    }
-
     public void stop(){
         try {
             Discovery.stop();
