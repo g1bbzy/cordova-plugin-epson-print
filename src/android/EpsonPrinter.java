@@ -33,17 +33,6 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
         mContext = pContext;
     }
 
-    public void ShowAlert(String Title, String Message) {
-        Builder dialog = new AlertDialog.Builder(mContext);
-        dialog.setNegativeButton("Ok", null);
-        AlertDialog alert = dialog.create();
-        alert.setTitle(Title);
-        alert.setMessage(Message);
-        alert.setCancelable(false);
-        alert.show();
-
-    }
-
     public boolean runPrintReceiptSequence(String ip, String image) {
 
         printer_ip_address = ip;
@@ -70,10 +59,8 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
 
             mPrinter = new Printer(Printer.TM_T88,Printer.MODEL_ANK,mContext);
 
-
         }
         catch (Exception e) {
-            ShowAlert("Printer", "");
             return false;
         }
 
@@ -93,8 +80,7 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
             mPrinter.connect(printer_ip_address, Printer.PARAM_DEFAULT);
 
         }
-        catch (Epos2Exception e) {
-            ShowAlert("connect", e.getMessage());
+        catch (Exception e) {
             return false;
         }
 
@@ -103,7 +89,6 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
             isBeginTransaction = true;
         }
         catch (Exception e) {
-            ShowAlert("Begin transaction", "");
         }
 
         if (isBeginTransaction == false) {
@@ -184,7 +169,6 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
         PrinterStatusInfo status = mPrinter.getStatus();
 
         if (!isPrintable(status)) {
-            ShowAlert("isprintable", "");
             try {
                 mPrinter.disconnect();
             }
@@ -198,7 +182,6 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
             mPrinter.sendData(Printer.PARAM_DEFAULT);
         }
         catch (Exception e) {
-            ShowAlert("senddata", "");
             try {
                 mPrinter.disconnect();
             }
@@ -237,14 +220,12 @@ public class EpsonPrinter extends Activity implements ReceiveListener {
             mPrinter.endTransaction();
         }
         catch (final Exception e) {
-            ShowAlert("endtransaction", "");
         }
 
         try {
             mPrinter.disconnect();
         }
         catch (final Exception e) {
-            ShowAlert("disconnectPrinter", "");
         }
 
         finalizeObject();
