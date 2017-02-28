@@ -1,4 +1,3 @@
-import android.app.Activity;
 import android.content.Context;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import android.app.AlertDialog.Builder;
 
 import org.apache.cordova.CallbackContext;
 
-public class PrinterSearch extends Activity {
+public class PrinterSearch {
 
     private Context mContext = null;
     private CallbackContext mCallbackContext = null;
@@ -49,18 +48,8 @@ public class PrinterSearch extends Activity {
             Discovery.start(mContext, mFilterOption, mDiscoveryListener);
         }
         catch (Exception e) {
-            ShowAlert("Searching for printer", "");
+            
         }
-    }
-
-    public void ShowAlert(String Title, String Message) {
-        Builder dialog = new AlertDialog.Builder(mContext);
-        dialog.setNegativeButton("Ok", null);
-        AlertDialog alert = dialog.create();
-        alert.setTitle(Title);
-        alert.setMessage(Message);
-        alert.setCancelable(false);
-        alert.show();
     }
 
     @Override
@@ -85,9 +74,11 @@ public class PrinterSearch extends Activity {
     private DiscoveryListener mDiscoveryListener = new DiscoveryListener() {
         @Override
         public void onDiscovery(final DeviceInfo deviceInfo) {
-            runOnUiThread(new Runnable() {
+            
+            new Thread(new Runnable() {
+
                 @Override
-                public synchronized void run() {
+                public void run() {
 
                     boolean lcNewPrinter = true;
 
@@ -99,7 +90,7 @@ public class PrinterSearch extends Activity {
                             break;
                         }
                         } catch (JSONException e) {
-                            ShowAlert("json","");
+
                         }
                     }
 
@@ -112,21 +103,20 @@ public class PrinterSearch extends Activity {
                             obj.put("brand", "Epson");
                             mCallbackContext.success(obj);
                         } catch (JSONException e) {
-                            ShowAlert("json","");
+                            
                         }
                         try {
                             Discovery.stop();
                         }
                         catch (Epos2Exception e) {
-                            ShowAlert("stopping discovery", "");
+                            
                         }
                     }
                     else {
 
                     }
-
                 }
-            });
+            }).start();
         }
     };
 }

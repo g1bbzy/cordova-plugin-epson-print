@@ -67,19 +67,31 @@ public class EpsonController extends CordovaPlugin  {
 				return true;
 			}
 			else if(FINDPRINTERS.equals(action)) {
-                try {
-                    JSONArray found_printers = new JSONArray(arguments.get(0).toString());
-                    mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
-                    mPrinterSearch.search();
-                } catch (JSONException e) {
-                    callbackContext.error(e.getMessage());
-                }
+				// find printer on a new thread, let cordova app continue.
+				new Thread(new Runnable() {
+	                @Override
+	                public void run() {
+	                	try {
+		                    JSONArray found_printers = new JSONArray(arguments.get(0).toString());
+		                    mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
+		                    mPrinterSearch.search();
+		                } catch (JSONException e) {
+		                    callbackContext.error(e.getMessage());
+		                }
+	                }
+	            }).start();
+                
 				return true;
 			}
 			else if(STOPSEARCH.equals(action)) {
-                JSONArray found_printers = new JSONArray();
-                mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
-                mPrinterSearch.stop();
+				new Thread(new Runnable() {
+	                @Override
+	                public void run() {
+	                    JSONArray found_printers = new JSONArray();
+                		mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
+                		mPrinterSearch.stop();
+	                }
+	            }).start();
                 return true;
 			}
 			callbackContext.error("Invalid action: " + action);

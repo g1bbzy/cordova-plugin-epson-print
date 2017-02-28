@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.app.AlertDialog;
@@ -231,7 +230,7 @@ public class EpsonPrinter implements ReceiveListener {
     }
     @Override
     public void onPtrReceive(final Printer printerObj, final int code, final PrinterStatusInfo status, final String printJobId) {
-        
+
         new Thread(new Runnable() {
             @Override
             public void run() {
