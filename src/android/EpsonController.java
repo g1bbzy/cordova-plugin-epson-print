@@ -40,13 +40,9 @@ public class EpsonController extends CordovaPlugin  {
 
 		try {
 			if (PRINTRECEIPT.equals(action)) {
-                
-            	Runnable r = new Runnable()
-				{
-				    @Override
-				    public void run()
-				    {
-				    	try {
+                cordova.getThreadPool().execute(new Runnable() {
+	                public void run() {
+                        try {
 					        String ip_address = (arguments.get(0).toString());
 		                    String base64_image_str = (arguments.get(1).toString());
 		                    mPrinter = null;
@@ -56,42 +52,38 @@ public class EpsonController extends CordovaPlugin  {
 		                    } else {
 		                        callbackContext.error("error");
 		                    }
-		                     }
+	                    }
 		                catch (JSONException e) {
 		                }
-				    }
-				};
-
-				Thread t = new Thread(r);
-				t.start();
+	                }
+	            });
 				return true;
 			}
 			else if(FINDPRINTERS.equals(action)) {
-				// find printer on a new thread, let cordova app continue.
-				new Thread(new Runnable() {
-	                @Override
+				cordova.getThreadPool().execute(new Runnable() {
 	                public void run() {
-	                	try {
+				        try {
 		                    JSONArray found_printers = new JSONArray(arguments.get(0).toString());
 		                    mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
 		                    mPrinterSearch.search();
-		                } catch (JSONException e) {
+		                } 
+		                catch (JSONException e) {
 		                    callbackContext.error(e.getMessage());
 		                }
 	                }
-	            }).start();
-                
+	            });
 				return true;
 			}
 			else if(STOPSEARCH.equals(action)) {
-				new Thread(new Runnable() {
-	                @Override
+				cordova.getThreadPool().execute(new Runnable() {
 	                public void run() {
+				        
 	                    JSONArray found_printers = new JSONArray();
-                		mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
-                		mPrinterSearch.stop();
+	            		mPrinterSearch = new PrinterSearch(mContext, callbackContext, found_printers);
+	            		mPrinterSearch.stop();
+		                
 	                }
-	            }).start();
+	            });
                 return true;
 			}
 			callbackContext.error("Invalid action: " + action);
