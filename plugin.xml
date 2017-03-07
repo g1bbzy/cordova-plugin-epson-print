@@ -22,6 +22,12 @@
             </feature>
         </config-file>
 
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        </config-file>
+
         <source-file src="src/android/EpsonController.java" target-dir="src/org/apache/cordova/plugin" />
         <source-file src="src/android/EpsonPrinter.java" target-dir="src/org/apache/cordova/plugin" />
         <source-file src="src/android/PrinterSearch.java" target-dir="src/org/apache/cordova/plugin" />
