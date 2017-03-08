@@ -34,7 +34,6 @@
         <source-file src="src/android/MyBase64.java" target-dir="src/org/apache/cordova/plugin" />
         <source-file src="src/android/ePOS2.jar" target-dir="libs" />
         <source-file src="src/android/ePOSEasySelect.jar" target-dir="libs" />
-        <source-file src="src/android/commons-codec-1.10.jar" target-dir="libs" />
         <source-file src="src/android/libepos2.so" target-dir="libs/armeabi-v7a" />
         <source-file src="src/android/libeposeasyselect.so" target-dir="libs/armeabi-v7a" />
     </platform>

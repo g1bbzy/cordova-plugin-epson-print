@@ -166,14 +166,13 @@ public class EpsonPrinter implements ReceiveListener {
 
         String method = "image";
 
-        //byte[] decodedString = MyBase64.decode(image_to_print);
-        byte[] decodedString = org.apache.commons.codec.binary.Base64.decodeBase64(image_to_print.getBytes());
+        byte[] decodedString = MyBase64.decode(image_to_print);
 
         Bitmap image = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
         // scale image down to 75%
-        int w = Math.round(((float)image.getWidth() * (float)0.75));
-        int h = Math.round(((float)image.getHeight() * (float)0.75));
+        int w = Math.round(((float)image.getWidth() * (float)0.40));
+        int h = Math.round(((float)image.getHeight() * (float)0.40));
         image = Bitmap.createScaledBitmap(image, w, h, false);
 
         if (mPrinter == null) {
