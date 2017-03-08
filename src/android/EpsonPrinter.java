@@ -166,8 +166,8 @@ public class EpsonPrinter implements ReceiveListener {
 
         String method = "image";
 
-        byte[] decodedString = MyBase64.decode(image_to_print);
-
+        //byte[] decodedString = MyBase64.decode(image_to_print);
+        byte[] decodedString = org.apache.commons.codec.binary.Base64.decodeBase64(image_to_print.getBytes());
 
         Bitmap image = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
