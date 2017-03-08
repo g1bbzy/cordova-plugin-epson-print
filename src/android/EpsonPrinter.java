@@ -189,7 +189,7 @@ public class EpsonPrinter implements ReceiveListener {
                     image.getWidth(),
                     image.getHeight(),
 					Printer.COLOR_1,
-                    Printer.MODE_GRAY16,
+                    Printer.PARAM_DEFAULT,
 					Printer.HALFTONE_DITHER,
 					Printer.PARAM_DEFAULT,
 					Printer.COMPRESS_NONE);
