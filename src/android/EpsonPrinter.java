@@ -170,10 +170,10 @@ public class EpsonPrinter implements ReceiveListener {
 
         Bitmap image = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-        // scale image down to 75%
-        //int w = Math.round(((float)image.getWidth() * (float)0.40));
-        //int h = Math.round(((float)image.getHeight() * (float)0.40));
-        //image = Bitmap.createScaledBitmap(image, w, h, false);
+        scale image down to 75%
+        int w = Math.round(((float)image.getWidth() * (float)0.75));
+        int h = Math.round(((float)image.getHeight() * (float)0.75));
+        image = Bitmap.createScaledBitmap(image, w, h, false);
 
         if (mPrinter == null) {
             return false;
