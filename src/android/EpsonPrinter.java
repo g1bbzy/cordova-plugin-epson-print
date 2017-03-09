@@ -184,7 +184,7 @@ public class EpsonPrinter implements ReceiveListener {
         //scale image down to 75%
         int w = Math.round(((float)image.getWidth() * (float)0.75));
         int h = Math.round(((float)image.getHeight() * (float)0.75));
-        image = Bitmap.createScaledBitmap(image, w, h, false);
+        image = Bitmap.createScaledBitmap(image, w, h, true);
 
         if (mPrinter == null) {
             return false;
@@ -218,7 +218,7 @@ public class EpsonPrinter implements ReceiveListener {
     }
 
     private void finalizeObject() {
-        
+
         if (mPrinter == null) {
             return;
         }

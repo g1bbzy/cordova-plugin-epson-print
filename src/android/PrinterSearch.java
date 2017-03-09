@@ -38,6 +38,8 @@ public class PrinterSearch {
         mFilterOption = new FilterOption();
         mFilterOption.setDeviceType(Discovery.TYPE_PRINTER);
         mFilterOption.setEpsonFilter(Discovery.FILTER_NAME);
+
+        //make sure it is not looking already
         try {
             Discovery.stop();
         }
@@ -58,7 +60,7 @@ public class PrinterSearch {
         }
         catch (Exception e) {
         }
-        mCallbackContext.success("");
+        mCallbackContext.success("Stopped searching");
     }
 
     private DiscoveryListener mDiscoveryListener = new DiscoveryListener() {
@@ -70,21 +72,23 @@ public class PrinterSearch {
                 @Override
                 public void run() {
 
-                    boolean lcNewPrinter = true;
+                    boolean new_printer = true;
 
                     for (int i = 0; i < mfoundPrinters.length(); i++) {
-                        try{
-                        JSONObject lcPrinter = mfoundPrinters.getJSONObject(i);
-                        if(lcPrinter.getString("target").equals(deviceInfo.getTarget())) {
-                            lcNewPrinter = false;
-                            break;
-                        }
-                        } catch (JSONException e) {
 
+                        try{
+
+                            JSONObject current_printer = mfoundPrinters.getJSONObject(i);
+                            if(current_printer.getString("target").equals(deviceInfo.getTarget())) {
+                                new_printer = false;
+                                break;
+                            }
+                        } catch (JSONException e) {
+                            mCallbackContext.error("Invalid JSON");
                         }
                     }
 
-                    if(lcNewPrinter == true) {
+                    if(new_printer == true) {
                         try{
                             JSONObject obj = new JSONObject();
                             obj.put("printer_name", deviceInfo.getDeviceName());
@@ -93,7 +97,7 @@ public class PrinterSearch {
                             obj.put("brand", "Epson");
                             mCallbackContext.success(obj);
                         } catch (JSONException e) {
-                            
+                            mCallbackContext.error("Error building JSON packet");
                         }
                         try {
                             Discovery.stop();
@@ -101,9 +105,6 @@ public class PrinterSearch {
                         catch (Epos2Exception e) {
                             
                         }
-                    }
-                    else {
-
                     }
                 }
             }).start();
