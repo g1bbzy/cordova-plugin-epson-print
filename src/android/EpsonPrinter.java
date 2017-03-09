@@ -22,6 +22,8 @@ import com.epson.epos2.printer.ReceiveListener;
 import com.epson.epos2.Epos2CallbackCode;
 import com.epson.epos2.Log;
 
+import org.apache.cordova.CallbackContext;
+
 public class EpsonPrinter implements ReceiveListener {
 
     private Context mContext = null;
@@ -29,9 +31,11 @@ public class EpsonPrinter implements ReceiveListener {
     private String  printer_ip_address = null;
     private String  image_to_print = null;
     private String  printer_series = null;
+    private CallbackContext mCallback = null;
 
-    public EpsonPrinter(Context pContext) {
+    public EpsonPrinter(Context pContext, CallbackContext pCallback) {
         mContext = pContext;
+        mCallback = pCallback;
     }
 
     public boolean runPrintReceiptSequence(String ip, String image, String series) {
@@ -119,6 +123,7 @@ public class EpsonPrinter implements ReceiveListener {
 
         }
         catch (Exception e) {
+            mCallback.error("There was an unknown problem while printing the receipt.");
             return false;
         }
 
@@ -138,6 +143,7 @@ public class EpsonPrinter implements ReceiveListener {
             mPrinter.connect(printer_ip_address, Printer.PARAM_DEFAULT);
         }
         catch (Exception e) {
+            mCallback.error("Could not connect to the printer. Make sure the printer is on.");
             return false;
         }
 
@@ -153,7 +159,7 @@ public class EpsonPrinter implements ReceiveListener {
                 mPrinter.disconnect();
             }
             catch (Epos2Exception e) {
-                // Do nothing
+                mCallback.error("There was an unknown problem while printing the receipt.");
                 return false;
             }
         }
@@ -204,6 +210,7 @@ public class EpsonPrinter implements ReceiveListener {
             mPrinter.addCut(Printer.CUT_FEED);
         }
         catch (Exception e) {
+            mCallback.error("There was an unknown problem while printing the receipt.");
             return false;
         }
 
@@ -211,6 +218,7 @@ public class EpsonPrinter implements ReceiveListener {
     }
 
     private void finalizeObject() {
+        
         if (mPrinter == null) {
             return;
         }
@@ -238,6 +246,7 @@ public class EpsonPrinter implements ReceiveListener {
                 mPrinter.disconnect();
             }
             catch (Exception ex) {
+                mCallback.error("There was an unknown problem while printing the receipt.");
                 // Do nothing
             }
             return false;
@@ -252,6 +261,7 @@ public class EpsonPrinter implements ReceiveListener {
             }
             catch (Exception ex) {
                 // Do nothing
+                mCallback.error("There was an unknown problem while printing the receipt.");
             }
             return false;
         }
@@ -265,13 +275,12 @@ public class EpsonPrinter implements ReceiveListener {
         }
 
         if (status.getConnection() == Printer.FALSE) {
+            mCallback.error("Could not connect to the printer. Please check the connection.");
             return false;
         }
         else if (status.getOnline() == Printer.FALSE) {
+            mCallback.error("Printer is offline. Please make sure the printer is on and connected to the network.");
             return false;
-        }
-        else {
-            ;//print available
         }
 
         return true;
